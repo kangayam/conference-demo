@@ -14,25 +14,31 @@ import java.util.List;
 public class SessionsController {
     @Autowired
     private SessionRepository sessionRepository;
+
     @GetMapping
     public List<Session> list(){
         return sessionRepository.findAll();
     }
+
     @GetMapping
     @RequestMapping("{id}")
     public Session get(@PathVariable Long id){
         return sessionRepository.getOne(id);
 
     }
+
     @PostMapping
     public Session create(@RequestBody final Session session){
         return sessionRepository.saveAndFlush(session);
     }
+
+
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
         // Also need to check for children records before deleting.
         sessionRepository.deleteById(id);
     }
+
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public Session update(@PathVariable Long id, @RequestBody Session session){
         // Becuase this is a put, we expect all attributs to be passed in.
